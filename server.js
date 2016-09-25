@@ -1,7 +1,8 @@
 
 
  var express = require('express');
-
+var bodyParser = require('body-parser');
+var mangoose = require('mangoose');
  var app = express();
 
 //routes;
