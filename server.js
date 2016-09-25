@@ -4,12 +4,14 @@
 var bodyParser = require('body-parser');
 var mangoose = require('mangoose');
 var morgan = require ('morgan');
-
+var ejs = require('ejs')
  var app = express();
+
+
 
 //routes;
 
- app.get('/home' , function(req, resp){
+ app.get('/' , function(req, resp){
    resp.send('salut les gent , je suit la');
  });
 
