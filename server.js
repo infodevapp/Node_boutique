@@ -3,11 +3,13 @@
  var express = require('express');
 var bodyParser = require('body-parser');
 var mangoose = require('mangoose');
+var morgan = require ('morgan');
+
  var app = express();
 
 //routes;
 
- app.get('/' , function(req, resp){
+ app.get('/home' , function(req, resp){
    resp.send('salut les gent , je suit la');
  });
 
