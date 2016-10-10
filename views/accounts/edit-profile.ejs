@@ -1,0 +1,39 @@
+<% layout('template') -%>
+
+  <div class="row">
+
+      <form class="form-horizontal" method="post">
+        <fieldset class="col-lg-8">
+          <legend> Editer Profile</legend>
+          <% if (message.length > 0) { %>
+             <div class="alert alert-success alert-dismissible">
+               <button type="button" class="close" data-dismmiss="alert" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+                 <%= message %>
+             </div>
+           <% } %>
+          <div class="form-group">
+            <label for="inputEmail" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control"value="<%= user.profile.names %>"  name="name" id="inputname" placeholder="name">
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">Adresse</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control"value="<%= user.adresse %>"  name="adress" id="inputPassword" placeholder="adresse">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="reset" class="btn btn-default">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+  </div>

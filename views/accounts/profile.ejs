@@ -1,0 +1,22 @@
+<% layout('template') -%>
+
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-2">
+          <img src="<%= user.profile.picture %>" class="pull-left img-responsive img-circle" alt="Photo de profile" title="photo de profile" />
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-8">
+          <h3>Profile : </h3>
+          <p>IDClient : <%= user._id %></p>
+          <p>Name : <%= user.profile.names %></p>
+          <p>Email : <%= user.email %></p>
+          <p>Adress : <%= user.adresse %></p>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+          <a href="/logout" class="btn btn-success pull-right">Déconnexion</a>
+        </div>
+    </div>
+  </div>
+</div>
