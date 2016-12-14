@@ -50,4 +50,3 @@ Temporary Items
 # project file
 .gitignore
 node_modules
-models
