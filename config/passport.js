@@ -9,6 +9,13 @@
 var passport = require('passport');
 // la strategie de connection : local, facebook, google, linked_in ...
 var localStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var async = require('async');
+var config = require('./config');
+
+var Cart = require('../models/cart');
 //inclure le model user pour verifier les donnees
 var User = require('../models/users');
 
@@ -45,10 +52,88 @@ passport.use('local-login', new localStrategy({
           //req.user._id // req.user.profile.names //....
         })
     }));
+
+
+    passport.use('Facebook-login', new FacebookStrategy(config.facebook,
+      function(token, refreshToken, profile, done) {
+        console.log(profile);
+        User.findOne({facebook:profile.id}, function(err, user) {
+          if (err) { return done(err); }
+          if(user){
+            done(null, user);
+          }else{
+            async.waterfall([
+              function(callback){
+                newUser = new User();
+                newUser.profile.names = profile.displayName;
+                newUser.facebook = profile.id;
+                newUser.email = profile._json.email;
+                newUser.profile.picture = 'https://graph.facebook.com/'+profile.id+'/picture?type=large';
+                newUser.tokens.push({kind : 'facebook', token : token});
+
+                newUser.save(function(err){
+                  if(err) throw err;
+                    callback(err, newUser);
+                });
+              },
+              function(newUser){
+                var cart = new Cart();
+                cart.owner = newUser._id;
+                cart.save(function(err){
+                  if(err) return next(err);
+                  return done(err, newUser);
+                })
+              }
+            ]);
+
+          }
+
+        });
+      }
+    ));
+
+// authentification avec google ,gmail
+passport.use('google-login',new GoogleStrategy(config.google,
+  function( token, refreshToken, profile, done) {
+    User.findOne({google:profile.id}, function(err, user) {
+      if (err) { return done(err); }
+      if(user){
+        done(null, user);
+      }else{
+        async.waterfall([
+          function(callback){
+            newUser = new User();
+            newUser.profile.names = profile.displayName;
+            newUser.google = profile.id;
+            newUser.email = profile.emails[0].value;
+            newUser.profile.picture = profile.photos[0].value;
+            newUser.tokens.push({kind : 'google', token : token});
+
+            newUser.save(function(err){
+              if(err) throw err;
+                callback(err, newUser);
+            });
+          },
+          function(newUser){
+            var cart = new Cart();
+            cart.owner = newUser._id;
+            cart.save(function(err){
+              if(err) return next(err);
+              return done(err, newUser);
+            })
+          }
+        ]);
+
+      }
+
+    });
+  }
+));
+
 // verification si l'utilisateur et connecter ou non
 exports.isAuthenticated = function(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  return res.redirect('login');
+  return res.redirect('/login');
 }

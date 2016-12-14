@@ -1,23 +1,85 @@
 
 <% layout('template') -%>
-<div class="row">
+<div class="jumbotron devapp-jumbotron">
   <center>
-    <h1> Accueil</h1>
+  <h3>Demo By DevApp</h3>
+     <p>Rechercher vos meilleurs produits : with ElasticSearch</p>
 
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-       ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-         in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-          officia deserunt mollit anim id est laborum.
-    </p>
+       <form class="col-md-6 col-md-offset-3">
+         <div class="input-group">
+           <input type="text" id="search" class="form-control input-lg" name="search_term" placeholder="Recherche Rapide ...">
+           <span class="input-group-btn">
+             <button type="submit" name="submit"
+             class=" btn btn-primary btn-lg glyphicon glyphicon-search"></button>
+           </span>
+         </div>
+       </form>
   </center>
 </div>
+<div class="row ">
+      <!-- pagination  -->
+      <center>
+        <ul class="pagination pagination-sm text-center center">
+         <li class="disabled"><a href="/page/<%= 1 %>">&laquo;</a></li>
+        <% for (var i = 1; i<= pages ; i++) { %>
+          <li><a href="/page/<%= i %>"><%= i %></a></li>
+        <% } %>
 
 
-<aside class="row">
-  <% include ../partials/navbar-right %>
+         <li><a href="/page/<%= pages %>">&raquo;</a></li>
+        </ul>
+    <center>
+</div>
 
-</aside>
+<div class="container">
+  <div class="row" id="searchResults">
+    <% for(var i = 0; i<products.length ; i++){ %>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="thumbnail">
+                  <img src="<%= products[i].image %>" alt="<%= products[i].name %>" />
+              </div>
+              <div class="caption">
+                <h5>
+                  <a href="/product/<%= products[i]._id %>"class="productName">
+                    <center><%= products[i].name %></center>
+                  </a>
+                </h5>
+                <p><%= products[i].description %></p>
+              </div>
+            </div>
+            <div class="panel-footer">
+                <div class="col-xs-6 col-sm-3 col-md-3 price">
+                  <center><s><%= products[i].price  %> </s> DNT</center>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-3 price">
+                  <center><%= products[i].price - 50 %> DNT</center>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-3">
+                  <center><i class="glyphicon glyphicon-heart wiswish" id="wiswish"></i></center>
+                </div>
+              <div class="col-xs-6 col-sm-3 col-md-3">
+                <center><i class="glyphicon glyphicon-shopping-cart cart-shop"data-product="<%= products[i] %>" id="panier"></i></center>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <div class="row ">
+        <!-- pagination  -->
+        <center>
+          <ul class="pagination pagination-sm text-center center">
+           <li class="disabled"><a href="/page/<%= 1 %>">&laquo;</a></li>
+          <% for (var i = 1; i<= pages ; i++) { %>
+            <li><a href="/page/<%= i %>"><%= i %></a></li>
+          <% } %>
+
+
+           <li><a href="/page/<%= pages %>">&raquo;</a></li>
+          </ul>
+      <center>
+  </div>
+</div>

@@ -1,6 +1,8 @@
 var router = require('express').Router(); // require de express router
 var User = require('../models/users');
 var passport = require('passport');
+var Cart = require('../models/cart');
+var async = require('async');
 var passportConf = require('../config/passport');
 
 
@@ -10,27 +12,41 @@ var passportConf = require('../config/passport');
  });
  // post inscription form
  router.post('/register' , function(req, resp, next){
-   var user = new User();
-   //utilisation du body parser pour requperer les donnees
-   user.email= req.body.email;
-   user.password = req.body.password;
-   user.profile.names = req.body.names;
-   user.profile.picture = user.gravatar();
-//utiliser User et pas user,require('../models/users').findOne({},function(err, existUser){})
-   User.findOne({ email : req.body.email }, function(err, existingUser){
-     if(existingUser){
-       req.flash('errors', 'erreur : email existe déja!');
-       return resp.redirect('/register');
-     }else{
-       user.save(function(err){
-         if(err) return next(err);
-         req.logIn(user, function(err){
-           if(err) return next(err);
-           resp.redirect('/profile');
-         })
+   async.waterfall([
+     function(callback) {
+       var user = new User();
+
+       user.profile.name = req.body.name;
+       user.email = req.body.email;
+       user.password = req.body.password;
+       user.profile.picture = user.gravatar();
+//User.findOne , User = require('user')
+       User.findOne({ email: req.body.email }, function(err, existingUser) {
+
+         if (existingUser) {
+           req.flash('errors', 'Account with that email address already exists');
+           return res.redirect('/register');
+         } else {
+           user.save(function(err, user) {
+             if (err) return next(err);
+             callback(null, user);
+           });
+         }
+       });
+     },
+
+     function(user) {
+       var cart = new Cart();
+       cart.owner = user._id;
+       cart.save(function(err) {
+         if (err) return next(err);
+         req.logIn(user, function(err) {
+           if (err) return next(err);
+           return res.redirect('/profile');
+         });
        });
      }
-   });
+   ]);
  });
 
  //route login
@@ -47,11 +63,16 @@ var passportConf = require('../config/passport');
     )
   );
 // route profile
-router.get('/profile', function(req, res, next){
-      res.render('accounts/profile');
+router.get('/profile', passportConf.isAuthenticated, function(req, res, next){
+      User.findOne({_id : req.user._id})
+          .populate('history.item')
+          .exec(function(err, foundUser){
+            if(err) return next(err);
+              res.render('accounts/profile', {fuser : foundUser});
+          });
 });
 //router rdit profile get and post
-router.get('/edit-Profile', function(req, res , next){
+router.get('/edit-Profile',passportConf.isAuthenticated, function(req, res , next){
   res.render('accounts/edit-Profile', {message : req.flash('message-edit')});
 });
 router.post('/edit-Profile', function(req, res, next){
@@ -73,7 +94,32 @@ router.get('/logout', function(req, res, next){
   res.redirect('/');
 });
 
+//route for facebook-connect
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+//If your application needs extended permissions,
+// they can be requested by setting the scope option.
+router.get('/auth/facebook', passport.authenticate('Facebook-login', { scope: 'email' }));
 
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+router.get('/auth/facebook/callback',
+  passport.authenticate('Facebook-login', { successRedirect: '/profile',
+                                      failureRedirect: '/login' }));
 
+ // route for google+
+ // GET /auth/google
+ router.get('/auth/google',
+      passport.authenticate('google-login', { scope: ['profile', 'email'] })
+ );
+ router.get('/auth/google/callback',
+   passport.authenticate('google-login', { failureRedirect: '/' }),
+   function(req, res) {
+     res.redirect('/profile');
+   }
+ );
 
  module.exports = router;

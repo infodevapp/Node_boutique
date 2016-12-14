@@ -1,9 +1,9 @@
 <% layout('template') -%>
-
+<div class="container">
   <div class="row">
-
+    <div class="col-md-8">
       <form class="form-horizontal" method="post">
-        <fieldset class="col-lg-8">
+        <fieldset class="">
           <legend> Se connecter</legend>
           <% if (message.length > 0) { %>
              <div class="alert alert-danger alert-dismissible">
@@ -36,4 +36,19 @@
           </div>
         </fieldset>
       </form>
+    </div>
+      <div class="col-md-4">
+        <h6> Connexion avec : </h6>
+
+
+        <a class="btn btn-block btn-social btn-facebook" href="/auth/facebook">
+          <span class="fa fa-facebook"></span> Se Connecter avec facebook.
+        </a>
+        <a class="btn btn-block btn-social btn-google" href="/auth/google">
+          <span class="fa fa-google"></span> Se Connecter avec Gmail.
+        </a>
+
+      </div>
   </div>
+
+</div>

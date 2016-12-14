@@ -9,6 +9,9 @@ var crypto = require('crypto');
  var usersSchema = new Schema({
    email:{type: String , unique:true},
    password: String,
+   facebook : String,
+   google : String,
+   tokens : Array,
    profile:{
      names :  {type : String, default:""},
      picture :  {type: String , default:""}
@@ -16,7 +19,8 @@ var crypto = require('crypto');
    adresse :String,
    history : [{
      date : Date,
-     paid : {type : Number, default : 0}
+     paid : {type : Number, default : 0},
+     item : {type : Schema.Types.ObjectId , ref: 'Products' }
    }]
  });
 

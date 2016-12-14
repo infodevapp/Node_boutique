@@ -1,0 +1,38 @@
+<% layout('template') -%>
+
+<div class="row">
+  <% for(var i = 0; i<products.length ; i++){ %>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="thumbnail">
+                <img src="<%= products[i].image %>" alt="<%= products[i].name %>" />
+            </div>
+            <div class="caption">
+              <h5>
+                <a href="/product/<%= products[i]._id %>"class="productName">
+                  <center><%= products[i].name %></center>
+                </a>
+              </h5>
+              <p><%= products[i].description %></p>
+            </div>
+          </div>
+          <div class="panel-footer">
+              <div class="col-xs-6 col-sm-3 col-md-3 price">
+                <center><s><%= products[i].price  %> </s> DNT</center>
+              </div>
+              <div class="col-xs-6 col-sm-3 col-md-3 price" >
+                <center><%= products[i].price - 50 %> DNT</center>
+              </div>
+              <div class="col-xs-6 col-sm-3 col-md-3">
+                <center><i class="glyphicon glyphicon-heart wiswish"id="wiswish"></i></center>
+              </div>
+            <div class="col-xs-6 col-sm-3 col-md-3">
+              <center><i class="glyphicon glyphicon-shopping-cart cart-shop" id="panier"></i></center>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+      </div>
+    </div>
+  <% } %>
+</div>

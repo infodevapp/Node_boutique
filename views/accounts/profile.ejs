@@ -5,7 +5,7 @@
   <div class="panel-body">
     <div class="row">
         <div class="col-xs-12 col-sm-5 col-md-2">
-          <img src="<%= user.profile.picture %>" class="pull-left img-responsive img-circle" alt="Photo de profile" title="photo de profile" />
+          <img src="<%= user.profile.picture %>" class="img-profile pull-left img-responsive img-circle" alt="Photo de profile" title="photo de profile" />
         </div>
         <div class="col-xs-12 col-sm-5 col-md-8">
           <h3>Profile : </h3>
@@ -17,6 +17,37 @@
         <div class="col-xs-6 col-sm-2 col-md-2">
           <a href="/logout" class="btn btn-success pull-right">Déconnexion</a>
         </div>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-hover ">
+            <thead>
+              <tr>
+
+                <th>image</th>
+                <th>Item</th>
+                <th>price</th>
+                <th>Total</th>
+                <th>Imprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (var i =0; i< fuser.history.length ; i++){ %>
+                <tr>
+
+                  <td>
+                    <span class="col-md-3">
+                      <img src="<%= fuser.history[i].item.image %>"
+                      alt="<%= fuser.history[i].item.name %>" class="thumbnail product-image" />
+                    </span> </td>
+                  <td><%= fuser.history[i].item.name %></td>
+                  <td><%= fuser.history[i].item.price %></td>
+                  <td><%= fuser.history[i].paid %></td>
+                  <td><i class="glyphicon glyphicon-print"></i></td>
+                </tr>
+              <% } %>
+
+            </tbody>
+        </table>
     </div>
   </div>
 </div>

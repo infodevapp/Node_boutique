@@ -1,0 +1,47 @@
+<% layout('template') -%>
+
+<div class="row">
+<%  if (products.length ===0){ %>
+  <div class="well well-sm">
+    <center>  Aucun résultat trouvé ! </center>
+  </div>
+<% }else{ %>
+  <div class="well well-sm">
+     <b>- </b> Resultat pour : <%= query %>
+  </div>
+  <% for(var i = 0; i<products.length ; i++){ %>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="thumbnail">
+                <img src="<%= products[i]._source.image %>" alt="<%= products[i]._source.name %>" />
+            </div>
+            <div class="caption">
+              <h5>
+                <a href="/product/<%= products[i]._source._id %>"class="productName">
+                  <center><%= products[i]._source.name %></center>
+                </a>
+              </h5>
+              <p><%= products[i]._source.description %></p>
+            </div>
+          </div>
+          <div class="panel-footer">
+              <div class="col-xs-6 col-sm-3 col-md-3 price">
+                <center><s><%= products[i]._source.price  %> </s> DNT</center>
+              </div>
+              <div class="col-xs-6 col-sm-3 col-md-3 price">
+                <center><%= products[i]._source.price - 50 %> DNT</center>
+              </div>
+              <div class="col-xs-6 col-sm-3 col-md-3">
+                <center><i class="glyphicon glyphicon-heart wiswish" id="wiswish"></i></center>
+              </div>
+            <div class="col-xs-6 col-sm-3 col-md-3">
+              <center><i class="glyphicon glyphicon-shopping-cart cart-shop" id="panier"></i></center>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+      </div>
+    </div>
+  <% } %> <!-- fin boucle for -->
+  <% } %> <!-- fin else -->
+</div>
