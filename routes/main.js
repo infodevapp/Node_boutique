@@ -34,7 +34,11 @@ var stripe = require('stripe')('sk_test_lXFBzBvZhEWeUo5IrEf4a9Wb');
 //function pagination
 function paginate(req, res, next){
   var perPage = 9;
-  var page = req.params.page;
+  var page = req.params.page -1;
+  if(!page){
+    page = 0
+  }
+  console.log(page);
   Product.find()
           .skip(perPage * page)
           .populate('category')
@@ -45,7 +49,8 @@ function paginate(req, res, next){
               if(err) return next(err);
               res.render('pages/home', {
                 products : products,
-                pages : count / perPage
+                pages : Math.ceil(count / perPage),
+                page : page + 1
               });
             })
           });
@@ -115,7 +120,7 @@ router.get('/search', function(req, res, next){
         return hit;
       });
      // res.json(data);
-      
+      console.log(data);
       res.render('pages/search', {
         query : req.query.q,
         products : data
@@ -126,6 +131,7 @@ router.get('/search', function(req, res, next){
 
 //get home
   router.get('/' , function(req, res, next){
+
       paginate(req,res, next);
   });//home pagination
   router.get('/page/:page' , function(req, res, next){

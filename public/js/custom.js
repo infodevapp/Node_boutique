@@ -27,9 +27,7 @@ $(document).ready(function(){
                              html +='</div>';
                              html +='<div class="caption">';
                              html +=  '<h5>';
-                               html +=  '<a href="/product/'+ products[i]._source._id +'" class="productName">';
                                  html +=  '<center>'+ products[i]._source.name +'</center>';
-                                 html +='</a>';
                                html +='</h5>';
                               html +='<p>'+ products[i]._source.description +'</p>';
                             html +='</div>';

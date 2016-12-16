@@ -5,16 +5,17 @@ var mongoosastic = require('mongoosastic'); //search for elasticsearch ,
 
 var productSchema = new Schema({
   name : {type : String, unique: true, lowercase:true},
-  //price : Number ,
+  price : Number ,
   description : String,
-  //quantite : Number,
+  quantite : Number,
   image : String,
   category : {type : Schema.Types.ObjectId , ref : 'Category'}
 });
 
 productSchema.plugin(mongoosastic, {
   hosts : [
-    "localhost:9200"
+    "https://syil3rt044:nodhu6uit7@sandbox-cluster-3830265252.us-east-1.bonsaisearch.net"
+   // "localhost:9200"
   ]
 });
 
