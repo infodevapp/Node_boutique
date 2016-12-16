@@ -1,7 +1,7 @@
 module.exports = {
   db : 'mongodb://root:admin@ds035806.mlab.com:35806/node_ecommerce',
   port: 1338,
-  secretKey: 'audia  4  002  00$$',
+  secretKey: '85420$af6ab3f3b2a2c4fe73fù1c7fd9',
   facebook : {
     clientID : process.env.FACEBOOK_ID || 1606442996325321,
     clientSecret: process.env.FACEBOOK_SECRET || '8542090af6ab3f3b2a2c4fe73f1c7fd9',
