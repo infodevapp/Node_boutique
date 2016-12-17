@@ -1,6 +1,6 @@
 module.exports = {
   db : 'mongodb://root:admin@ds035806.mlab.com:35806/node_ecommerce',
-  port: 1338,
+  port:  process.env.PORT || 1338,
   secretKey: '85420$af6ab3f3b2a2c4fe73fù1c7fd9',
   facebook : {
     clientID : process.env.FACEBOOK_ID || 1606442996325321,

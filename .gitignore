@@ -50,3 +50,5 @@ Temporary Items
 # project file
 .gitignore
 node_modules
+/node_modules
+npm-debug.log
