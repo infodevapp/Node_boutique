@@ -38,7 +38,6 @@ function paginate(req, res, next){
   if(!page){
     page = 0
   }
-  console.log(page);
   Product.find()
           .skip(perPage * page)
           .populate('category')

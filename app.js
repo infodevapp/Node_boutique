@@ -1,6 +1,7 @@
-
-
- var express = require('express');// express js , moteur de routing
+var express = require('express');// express js , moteur de routing , framework
+var path = require('path');
+var favicon = require('serve-favicon');
+//---------------------------------------------
 var config = require('./config/config');
 //permet de connecter a la base de donnees mongolab en ligne : mongolab.com
 var mongoose = require('mongoose');
@@ -20,6 +21,10 @@ var morgan = require ('morgan');
  // passer les categories a tous les page
  var Category = require('./models/category');
  var app = express();
+
+
+
+var app = express();
 
 //middlwaires
 //pour activer morgan il faut utiliser le middlwaires
@@ -75,5 +80,37 @@ var adminCategoryRouter = require('./routes/category');
 app.use(adminCategoryRouter);
 var apiProducts = require('./api/api');
 app.use('/api', apiProducts);
-// port
-app.listen(config.port);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
+
+module.exports = app;

@@ -1,14 +1,10 @@
 {
-  "name": "node_boutique",
+  "name": "node_boutique1",
   "version": "1.0.0",
-  "description": "creation d'une boutique sous nodejs",
-  "main": "server.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./bin/www"
   },
-  "author": "bassem dridi",
-  "license": "ISC",
   "dependencies": {
     "async": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
@@ -16,8 +12,10 @@
     "connect-mongo": "^1.3.2",
     "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
+    "debug": "~2.2.0",
     "ejs": "^2.5.2",
     "ejs-mate": "^2.3.0",
+    "express": "~4.13.4",
     "express-flash": "0.0.2",
     "express-session": "^1.14.1",
     "faker": "^3.1.0",
@@ -26,8 +24,10 @@
     "morgan": "^1.7.0",
     "nodemon": "^1.10.2",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
+    "serve-favicon": "~2.3.0",
     "stripe": "^4.11.0"
   },
   "devDependencies": {
